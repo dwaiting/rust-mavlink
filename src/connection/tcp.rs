@@ -30,7 +30,9 @@ pub fn tcpout<T: ToSocketAddrs>(address: T) -> io::Result<TcpConnection> {
         .next()
         .expect("Host address lookup failed.");
     let socket = TcpStream::connect(&addr)?;
-    socket.set_read_timeout(Some(Duration::from_millis(100)))?;
+
+    /* Commenting out line below to prevent "Resource temporarily unavailable" errors */
+    //socket.set_read_timeout(Some(Duration::from_millis(100)))?;
 
     Ok(TcpConnection {
         reader: Mutex::new(socket.try_clone()?),
